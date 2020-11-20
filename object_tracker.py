@@ -16,6 +16,7 @@ from PIL import Image
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from easydict import EasyDict
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 # deep sort imports
@@ -29,14 +30,14 @@ flags.DEFINE_string('weights', './checkpoints/yolov4-416',
 flags.DEFINE_integer('size', 416, 'resize images to')
 flags.DEFINE_boolean('tiny', False, 'yolo or yolo-tiny')
 flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
-flags.DEFINE_string('video', './data/video/test.mp4', 'path to input video or set to 0 for webcam')
-flags.DEFINE_string('output', None, 'path to output video')
+flags.DEFINE_string('video', './data/video/dv.mp4', 'path to input video or set to 0 for webcam')
+flags.DEFINE_string('output', './outputs/demo.avi', 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
-flags.DEFINE_float('iou', 0.45, 'iou threshold')
+flags.DEFINE_float('iou', 0.90, 'iou threshold')
 flags.DEFINE_float('score', 0.50, 'score threshold')
 flags.DEFINE_boolean('dont_show', False, 'dont show video output')
-flags.DEFINE_boolean('info', False, 'show detailed info of tracked objects')
-flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
+flags.DEFINE_boolean('info', True, 'show detailed info of tracked objects')
+flags.DEFINE_boolean('count', True, 'count objects being tracked on screen')
 
 def main(_argv):
     # Definition of the parameters
@@ -157,10 +158,10 @@ def main(_argv):
         class_names = utils.read_class_names(cfg.YOLO.CLASSES)
 
         # by default allow all classes in .names file
-        allowed_classes = list(class_names.values())
+        # allowed_classes = list(class_names.values())
         
         # custom allowed classes (uncomment line below to customize tracker for only people)
-        #allowed_classes = ['person']
+        allowed_classes = ['car']
 
         # loop through objects and use class index to get class name, allow only classes in allowed_classes list
         names = []
